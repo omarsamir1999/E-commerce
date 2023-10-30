@@ -56,8 +56,6 @@ Welcome to the E-Commerce Microservices project, a culmination of our journey at
 
 ### Collaborators
 
-This project would not have been possible without the dedication and collaboration of the following team members:
-
 - [Mohamed Elkohly](https://github.com/Mohamed-Elkholy)
 - [Amira Taha](https://github.com/amira921)
 - [Moaz Suliman](https://github.com/MoaazSuliman)
