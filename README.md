@@ -43,6 +43,29 @@ Welcome to the E-Commerce Microservices project, a culmination of our journey at
 - Log transaction details.
 - Facilitate account balance inquiries.
 
+
+
+Certainly, you can add a separate section highlighting that each service has its dedicated branch containing the Entity-Relationship Diagram (ERD). Here's how you can include it:
+
+### Entity-Relationship Diagram (ERD)
+
+For meticulous project organization and a deeper understanding of our microservices architecture, we have dedicated individual branches for each service. In these branches, you will find the Entity-Relationship Diagram (ERD) that illustrates the data model and relationships specific to each service. Below are the branches and links to access the ERDs:
+
+- User Service: [User Service](https://github.com/omarsamir1999/E-commerce/tree/user-service)
+
+- Store Service: [Store Service](https://github.com/omarsamir1999/E-commerce/tree/store-service)
+
+- Product Service: [Product Service](https://github.com/omarsamir1999/E-commerce/tree/Product-Service)
+
+- Order Service: [Order Service](https://github.com/omarsamir1999/E-commerce/tree/order-service)
+
+- Coupon Service: [Coupon Service](https://github.com/omarsamir1999/E-commerce/tree/coupon-service)
+
+- Notification Service: [Notification Service](https://github.com/omarsamir1999/E-commerce/tree/notification_service)
+
+- Bank Service: [Bank Service](https://github.com/omarsamir1999/E-commerce/tree/bank-service)
+
+
 ### Implementation Goals
 
 - Utilizing clean architecture principles, separating components into layers such as controller, service, repository, DTO, mapper, entity, exception, and security.
