@@ -44,9 +44,6 @@ Welcome to the E-Commerce Microservices project, a culmination of our journey at
 - Facilitate account balance inquiries.
 
 
-
-Certainly, you can add a separate section highlighting that each service has its dedicated branch containing the Entity-Relationship Diagram (ERD). Here's how you can include it:
-
 ### Entity-Relationship Diagram (ERD)
 
 For meticulous project organization and a deeper understanding of our microservices architecture, we have dedicated individual branches for each service. In these branches, you will find the Entity-Relationship Diagram (ERD) that illustrates the data model and relationships specific to each service. Below are the branches and links to access the ERDs:
