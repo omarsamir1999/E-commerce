@@ -7,6 +7,7 @@ import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +24,8 @@ public class Transaction {
     private Account account;
     private TransactionType transactionType;
     private float amount;
-    @Timestamp
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
     private Status status;
 
