@@ -1,19 +1,13 @@
-package ecommerce.order.models;
+package ecommerce.order.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class OrderItemDto {
     private String productCode;
     private int storeId;
     private int quantity;

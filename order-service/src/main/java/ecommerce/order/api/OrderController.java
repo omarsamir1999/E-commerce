@@ -1,21 +1,25 @@
 package ecommerce.order.api;
 
 
+import ecommerce.order.dto.OrderRequest;
 import ecommerce.order.models.Order;
 import ecommerce.order.service.OrderService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/order")
-@AllArgsConstructor
+@RequestMapping("/api/order")
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/{id}")
-    public Order findById(@PathVariable long id) {
-        return orderService.findById(id);
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void placeOrder(@RequestBody OrderRequest orderRequest) {
+        orderService.placeOrder(orderRequest);
     }
-
 }

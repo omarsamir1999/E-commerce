@@ -11,14 +11,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
-    private LocalDateTime date;
-    private double price;
-    private String couponCode;
-    private double couponValue;
-    private double paidPrice;
-    private String customerEmail;
-
+public class OrderRequest {
     private List<OrderItemDto> orderItemDtosList;
-
+    private String customerEmail;
+    private String couponCode;
 }

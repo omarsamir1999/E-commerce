@@ -1,11 +1,23 @@
 package ecommerce.order.service;
 
-import org.springframework.scheduling.annotation.Async;
+import ecommerce.order.dto.Notification;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
 public class NotificationService {
+    @Value("${rabbitmq.exchange.name}")
+    private String exchangeName;
 
-    @Async
-    public void sendNotification(String customerEmail, String orderId, String shipmentId) {
+    @Value("${rabbitmq.routing.key}")
+    private String routingKey;
 
+    private final RabbitTemplate rabbitTemplate;
+
+    public NotificationService(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+    public void sendNotification(Notification notification) {
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, notification);
     }
 }
