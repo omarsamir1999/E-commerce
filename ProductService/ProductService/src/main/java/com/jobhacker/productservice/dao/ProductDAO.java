@@ -3,6 +3,7 @@ package com.jobhacker.productservice.dao;
 import com.jobhacker.productservice.exception.InvalidArgumentException;
 import com.jobhacker.productservice.exception.NotFoundException;
 import com.jobhacker.productservice.mapper.ProductMapper;
+import com.jobhacker.productservice.model.dto.OrderTotalPriceRequest;
 import com.jobhacker.productservice.model.dto.ProductDto;
 import com.jobhacker.productservice.model.dto.ProductDtoRequest;
 import com.jobhacker.productservice.model.entity.Brand;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductDAO {
@@ -102,6 +104,21 @@ public class ProductDAO {
             productRepository.save(product);
         } catch (Exception e) {
             throw new NotFoundException("Product with id %d Not Exists".formatted(id));
+        }
+    }
+
+    public Double getTotalCostOfProductList(OrderTotalPriceRequest orderTotalPriceRequest) {
+
+        try {
+
+            return orderTotalPriceRequest.getOrderItemDtoList().stream()
+                    .map(e -> productRepository.findById(e.getProductId())
+                            .orElseThrow(() -> new NoSuchElementException(e.getProductId().toString()))
+                            .getPrice() * e.getQuantity()
+                    )
+                    .reduce(Double::sum).orElseThrow();
+        } catch (NoSuchElementException e) {
+            throw new NotFoundException("Their Product id:%s is not exists!".formatted(e.getMessage()));
         }
     }
 }

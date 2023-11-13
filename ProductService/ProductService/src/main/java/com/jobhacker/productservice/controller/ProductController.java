@@ -1,5 +1,7 @@
 package com.jobhacker.productservice.controller;
 
+import com.jobhacker.productservice.model.dto.OrderTotalPriceRequest;
+import com.jobhacker.productservice.model.dto.OrderTotalPriceResponse;
 import com.jobhacker.productservice.model.dto.ProductDto;
 import com.jobhacker.productservice.model.dto.ProductDtoRequest;
 import com.jobhacker.productservice.service.ProductService;
@@ -48,5 +50,12 @@ public class ProductController {
     @DeleteMapping(value = "/{id}")
     public void deleteProduct(@PathVariable(name = "id") Long id) {
         productService.deleteProduct(id);
+    }
+
+    @PostMapping(value = {"/totalcost"})
+    public ResponseEntity<OrderTotalPriceResponse> getTotalPriceOfOrder(
+            @RequestBody OrderTotalPriceRequest orderTotalPriceRequest) {
+        OrderTotalPriceResponse totalPrice = productService.getAllCost(orderTotalPriceRequest);
+        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
     }
 }

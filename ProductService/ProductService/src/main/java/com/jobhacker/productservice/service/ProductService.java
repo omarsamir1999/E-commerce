@@ -2,6 +2,8 @@ package com.jobhacker.productservice.service;
 
 import com.jobhacker.productservice.dao.ProductDAO;
 import com.jobhacker.productservice.exception.UnExpectedException;
+import com.jobhacker.productservice.model.dto.OrderTotalPriceRequest;
+import com.jobhacker.productservice.model.dto.OrderTotalPriceResponse;
 import com.jobhacker.productservice.model.dto.ProductDto;
 import com.jobhacker.productservice.model.dto.ProductDtoRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,15 @@ public class ProductService {
             productDAO.removeProductById(id);
         } catch (Exception e) {
             throw new UnExpectedException("Delete Product with id:%d process was failed".formatted(id));
+        }
+    }
+
+    public OrderTotalPriceResponse getAllCost(OrderTotalPriceRequest orderTotalPriceRequest) {
+        try {
+            Double totalPrice = productDAO.getTotalCostOfProductList(orderTotalPriceRequest);
+            return new OrderTotalPriceResponse(totalPrice);
+        } catch (Exception e) {
+            throw new UnExpectedException("Their exists error in product list!");
         }
     }
 }
