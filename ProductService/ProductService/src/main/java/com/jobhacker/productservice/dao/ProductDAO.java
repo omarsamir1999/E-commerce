@@ -121,4 +121,16 @@ public class ProductDAO {
             throw new NotFoundException("Their Product id:%s is not exists!".formatted(e.getMessage()));
         }
     }
+
+    public List<ProductDto> searchAboutProductName(String name) {
+        try {
+            return productRepository.findByProductNameContainingIgnoreCase(name)
+                    .stream()
+                    .map(productMapper::toDto)
+                    .filter(e -> e.getProductStatus() == ProductStatus.ACTIVE)
+                    .toList();
+        } catch (Exception ex) {
+            throw new NotFoundException("Theirs is no product with this name");
+        }
+    }
 }

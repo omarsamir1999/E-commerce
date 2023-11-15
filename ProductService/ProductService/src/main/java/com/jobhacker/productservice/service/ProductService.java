@@ -69,4 +69,12 @@ public class ProductService {
             throw new UnExpectedException("Their exists error in product list!");
         }
     }
+
+    public List<ProductDto> searchAboutProducts(String name) {
+        try {
+            return productDAO.searchAboutProductName(name.toUpperCase());
+        } catch (Exception e) {
+            throw new UnExpectedException("Their issue in search about product");
+        }
+    }
 }
