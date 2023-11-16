@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e892038e-9fa8-406b-b4d9-03c8154895ca" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/ecommerce/order/helpers/TransactionType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProductService/ProductService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ProductService/ProductService/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/ecommerce/order/dto/PaymentDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/ecommerce/order/dto/PaymentDetails.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/src/main/java/ecommerce/order/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/java/ecommerce/order/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/dto/PaymentDetails.class" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/dto/PaymentDetails.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/CouponService.class" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/CouponService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/OrderItemService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/OrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/StockHistoryService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-service/target/classes/ecommerce/order/service/TransactionService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +110,7 @@
       <workItem from="1699877285302" duration="1564000" />
       <workItem from="1699969695102" duration="6574000" />
       <workItem from="1700140002488" duration="9895000" />
-      <workItem from="1700158178758" duration="2996000" />
+      <workItem from="1700158178758" duration="5188000" />
     </task>
     <servers />
   </component>
