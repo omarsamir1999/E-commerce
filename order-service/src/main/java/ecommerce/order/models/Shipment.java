@@ -1,6 +1,6 @@
 package ecommerce.order.models;
 
-import ecommerce.order.helpers.ShipmentStatus;
+import ecommerce.order.helpers.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,11 +17,8 @@ public class Shipment {
     @Id
     private long id;
     private String customerEmail;
-    private int storeId;
+    private long storeId;
     private LocalDateTime shipmentDate;
-
-    @Enumerated(EnumType.STRING)
-    private ShipmentStatus status;
 
     private String country;
     private String state;
@@ -30,5 +27,4 @@ public class Shipment {
 
     @OneToOne
     private Order order;
-
 }

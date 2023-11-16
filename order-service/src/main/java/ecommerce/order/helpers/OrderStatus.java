@@ -1,6 +1,6 @@
 package ecommerce.order.helpers;
 
-public enum ShipmentStatus {
+public enum OrderStatus {
     PENDING,
     SHIPPING,
     CANCELED,

@@ -1,5 +1,7 @@
 package ecommerce.order.models;
 
+import ecommerce.order.dto.PaymentDetails;
+import ecommerce.order.helpers.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +28,9 @@ public class Order {
     private Double couponValue;
     private Double paidPrice;
     private String customerEmail;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+    private Long transactionId;
     @OneToMany
     private List<OrderItem> orderItemsList;
-
 }

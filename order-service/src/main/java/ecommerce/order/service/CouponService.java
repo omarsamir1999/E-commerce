@@ -1,40 +1,62 @@
 package ecommerce.order.service;
 
-import ecommerce.order.dto.CouponResponse;
+import ecommerce.order.models.Order;
+import lombok.Data;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-
+@Service
 public class CouponService {
-    private final RestTemplate restTemplate;
+    private final String COUPON_SERVICE_BASE_URL = "http://coupon-service-url"; // Replace with your actual URL
 
+    private final RestTemplate restTemplate;
 
     public CouponService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public boolean couponValid(int couponCode) {
-        CouponResponse couponResponse = coupon(couponCode);
+    public boolean isValidCoupon(String couponCode) {
+        String url = COUPON_SERVICE_BASE_URL + "/validateCoupon?code=" + couponCode;
+        // Make a GET request to the coupon service endpoint to validate the coupon
+        ResponseEntity<Boolean> response = restTemplate.getForEntity(url, Boolean.class);
+        return Boolean.TRUE.equals(response.getBody());
+    }
 
-        if (Objects.equals(couponResponse.endType(), "limit")) {
-            return  (couponResponse.usageLimit() < couponResponse.usages());
-        } else if (Objects.equals(couponResponse.endType(), "time")) {
-            return couponResponse.expirationTime().isAfter(LocalDateTime.now());
-        } else {
-            return false;
+
+    public void consumeCoupon(Order order) {
+        String couponCode = order.getCouponCode();
+        Double totalCost = order.getPrice();
+
+        String url = COUPON_SERVICE_BASE_URL + "/getCouponDetails?code=" + couponCode;
+        // Make a GET request to the coupon service endpoint to fetch coupon details
+        // Example:
+        CouponDetails couponDetails = restTemplate.getForObject(url, CouponDetails.class);
+
+        // Assume CouponDetails has fields like type (FIXED_VALUE or PERCENTAGE) and value
+        Double value = couponDetails.getValue();
+        String type = couponDetails.getType();
+
+        Double paidPrice = order.getPrice();
+        if (type.equals("FIXED")) {
+            paidPrice -= value;
+        } else if (type.equals("PERCENTAGE")) {
+            // Calculate the discount based on percentage
+            Double discount = (value / 100.0) * totalCost;
+            paidPrice -= discount;
         }
+        if (paidPrice < 0.0) {
+            paidPrice = 0.0;
+        }
+        // Update the order's total cost after applying the coupon
+        order.setPaidPrice(paidPrice);
     }
 
-    public CouponResponse coupon(int couponCode) {
-        return restTemplate.getForObject(
-                "http://localhost:8084/api/v1/coupons/" + couponCode,
-                CouponResponse.class);
-    }
-
-    public void applyCoupon(int orderId, int couponCode) {
-
-    }
+}
 
 
+@Data
+class CouponDetails {
+    private String type; // Example: "FIXED_VALUE" or "PERCENTAGE"
+    private Double value; // Example: 10.0 for fixed value or 20.0 for percentage
 }

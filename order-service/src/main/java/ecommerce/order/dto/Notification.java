@@ -1,6 +1,6 @@
 package ecommerce.order.dto;
 
-import ecommerce.order.helpers.ShipmentStatus;
+import ecommerce.order.helpers.OrderStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -19,5 +19,5 @@ public class Notification {
     private LocalDateTime orderDate;
     private double paidPrice;
     @Enumerated(EnumType.STRING)
-    private ShipmentStatus status;
+    private OrderStatus status;
 }

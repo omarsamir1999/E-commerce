@@ -1,78 +1,144 @@
 package ecommerce.order.service;
 
-import ecommerce.order.dto.OrderItemDto;
-import ecommerce.order.dto.OrderRequest;
+import ecommerce.order.dto.*;
+import ecommerce.order.helpers.OrderStatus;
+import ecommerce.order.helpers.TransactionStatus;
 import ecommerce.order.models.Order;
 import ecommerce.order.models.OrderItem;
-import ecommerce.order.repositories.OrderRepository;
+import ecommerce.order.models.Shipment;
+import ecommerce.order.repository.OrderRepository;
+import ecommerce.order.repository.ShipmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final ShipmentRepository shipmentRepository;
+    private final ProductService productService;
+    private final CouponService couponService;
+    private final StoreService storeService;
+    private final BankService bankService;
+    private final NotificationService notificationService;
 
     public Order findById(long id) {
         return orderRepository.findById(id).orElse(null);
     }
 
+
+    public List<Order> searchOrdersByCustomer(String customerEmail) {
+        return orderRepository.findByCustomerEmail(customerEmail);
+    }
+
+    public List<Order> searchOrdersByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return orderRepository.findByDateBetween(startDate, endDate);
+    }
+
     public void placeOrder(OrderRequest orderRequest) {
+
+        // the order details data
         Order order = new Order();
         order.setCustomerEmail(orderRequest.getCustomerEmail());
+        order.setCouponCode(orderRequest.getCouponCode());
+        List<OrderItem> orderItems = orderRequest.getOrderItemDtosList()
+                .stream()
+                .map(this::mapToEntity).toList();
+        order.setOrderItemsList(orderItems);
 
-        // call the stock service to check if all order items exist
-        if (orderItemsExists(orderRequest.getOrderItemDtosList())) {
-            List<OrderItem> orderItems = orderRequest.getOrderItemDtosList()
-                    .stream()
-                    .map(this::mapToEntity).toList();
-            order.setOrderItemsList(orderItems);
-        } else {
+        // 1. call the stock service to check if all order items exist
+        if (!orderItemsExists(orderRequest.getOrderItemDtosList())) {
             throw new IllegalArgumentException("order items are not available in the stock!");
         }
 
-        // get the total price from the product service
-        Double price = calculateTotalPrice(orderRequest.getOrderItemDtosList());
+        // 2. get the total price from the product service
+        Double price = productService.calculateTotalPrice(orderRequest.getOrderItemDtosList());
         order.setPrice(price);
+        order.setPaidPrice(price);
 
-        // call coupon service to check if the given coupon is valid or not
-        if (isValidCoupon(orderRequest.getCouponCode())) {
-            order.setCouponCode(orderRequest.getCouponCode());
-            Double couponValue = getCouponValue(orderRequest.getCouponCode(), price);
-            if (couponValue > price) {
-                throw new RuntimeException("Can't process this coupon on this order!");
-            }
-            order.setCouponValue(couponValue);
-            order.setPaidPrice(price - couponValue);
+        // 3. call coupon service to check if the given coupon is valid or not
+        if (!order.getCouponCode().isEmpty() && couponService.isValidCoupon(order.getCouponCode())) { // if order has a coupon
+            couponService.consumeCoupon(order);
         }
+        order.setStatus(OrderStatus.PENDING);
 
-        // call the stock service to increment the items from the stock
-        consumeFromStock(orderRequest.getOrderItemDtosList());
+        // 4. Make the transaction
+        PaymentDetails paymentDetails = getPaymentDetails(orderRequest, order);
+        TransactionResponse transactionResponse = bankService.makeTransaction(paymentDetails);
 
+        if (transactionResponse.getTransactionStatus() == TransactionStatus.FAIL) {
+            throw new IllegalArgumentException("Invalid Transaction!");
+        }
+        // 5. persist the transactionId
+        order.setTransactionId(transactionResponse.getTransactionId());
+
+        // 6. Create the shipment
+        Shipment shipment = getShipment(orderRequest, order);
+        shipmentRepository.save(shipment);
+
+        // 7. update order status
+        order.setStatus(OrderStatus.SHIPPING);
+
+
+        // 8. call the stock service to decrement the items from the stock
+        storeService.consumeFromStock(orderRequest.getOrderItemDtosList());
+
+        // 9. persist the order
         orderRepository.save(order);
+
+        // 10. send notifivation to the customer
+//        notificationService.sendNotification();
+    }
+
+    private static PaymentDetails getPaymentDetails(OrderRequest orderRequest, Order order) {
+        PaymentDetails paymentDetails = new PaymentDetails();
+        paymentDetails.setCustomerEmail(orderRequest.getCustomerEmail());
+        paymentDetails.setCardName(orderRequest.getCardName());
+        paymentDetails.setCardNumber(orderRequest.getCardNumber());
+        paymentDetails.setSecurityCode(orderRequest.getSecurityCode());
+        paymentDetails.setExpirationMonth(orderRequest.getExpirationMonth());
+        paymentDetails.setExpirationYear(orderRequest.getExpirationYear());
+        paymentDetails.setAmount(order.getPaidPrice());
+        return paymentDetails;
+    }
+
+    private static Shipment getShipment(OrderRequest orderRequest, Order order) {
+        Shipment shipment = new Shipment();
+        shipment.setCustomerEmail(orderRequest.getCustomerEmail());
+        shipment.setShipmentDate(LocalDateTime.now());
+        shipment.setCountry(orderRequest.getCountry());
+        shipment.setState(orderRequest.getState());
+        shipment.setCity(orderRequest.getCity());
+        shipment.setAddressLine(orderRequest.getAddressLine());
+        shipment.setOrder(order);
+        return shipment;
     }
 
     private boolean orderItemsExists(List<OrderItemDto> orderedItems) {
         return true;
     }
-    private boolean isValidCoupon(String couponCode) {
-        return true;
-    }
 
-    private Double getCouponValue(String CouponCode, Double price) {
-        return price;
-    }
-    private Double calculateTotalPrice(List<OrderItemDto> orderItems) {
-        return 0.0;
-    }
-
-    private void consumeFromStock(List<OrderItemDto> orderItems) {
-
-    }
-
+//    private boolean isValidCoupon(String couponCode) {
+//        return true;
+//    }
+//
+//    private static Double getCouponValue(String CouponCode, Double price) {
+//        return price;
+//    }
+//
+//    private Double calculateTotalPrice(List<OrderItemDto> orderItems) {
+//        return 0.0;
+//    }
+//
+//    private void consumeFromStock(List<OrderItemDto> orderItems) {
+//    }
+//
+//    private TransactionResponse makeTransaction(PaymentDetails paymentDetails) {
+//        return new TransactionResponse();
+//    }
 
     private OrderItem mapToEntity(OrderItemDto orderItemDto) {
         OrderItem orderItem = new OrderItem();
