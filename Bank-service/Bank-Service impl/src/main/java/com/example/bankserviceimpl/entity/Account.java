@@ -2,9 +2,11 @@ package com.example.bankserviceimpl.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
@@ -16,6 +18,6 @@ public class Account {
     private Customer customer;
     private String cardName;
     private String cardNumber;
-    private int CVV;
-    private float balance;
+    private Integer CVV;
+    private Float balance;
 }
