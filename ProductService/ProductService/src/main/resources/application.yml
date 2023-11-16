@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/productservice
-    username: root
-    password: 11904231@$
+    url: jdbc:mysql://localhost:3306/productservice?createDatabaseIfNotExist=true
+    username: Mohamed-Harby
+    password: MySql12Password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
