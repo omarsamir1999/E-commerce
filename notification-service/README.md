@@ -15,7 +15,7 @@ Notification Service facilitates the communication between [Order Service](https
 - Schedule task to resend failed emails
 
 ## Email Sample
-<p align="center"><img src="Email Sample.jpg" width="500" length="600"></p>
+<p align="center"><img src="Email Sample.jpg" width="800" length="600"></p>
 
 ## Json Message Format between Order Service and Notification Service
 <p align="center"><img src="order-information message.jpg" height="600" width="400"></p>

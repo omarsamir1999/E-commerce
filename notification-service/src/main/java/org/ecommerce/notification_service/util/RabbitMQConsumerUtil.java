@@ -33,4 +33,26 @@ public class RabbitMQConsumerUtil {
         }
         return node;
     }
+
+    /**
+     * Converts email content saved in database as JSON string to JsonNode object using the Jackson ObjectMapper.
+     *
+     * @param content The JSON string to be converted.
+     * @return JsonNode
+     * @throws RabbitMQException If an error occurs during the conversion process, RabbitMQException is logged.
+     *                           The exception message provides details about the success or failure of the conversion.
+     *                           If the conversion fails, the message includes the reason for failure.
+     */
+    public JsonNode ConvertStringToJsonNode(String content) {
+        JsonNode node = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            node = mapper.readTree(content);
+            LOGGER.info(String.valueOf(new RabbitMQException("The message in the database converted into JsonNode")));
+        } catch (IOException e) {
+            LOGGER.info(String.valueOf(new RabbitMQException("The conversion from the message body in RabbitMQ to JsonNode failed" + e.getMessage())));
+        }
+        return node;
+    }
+
 }
