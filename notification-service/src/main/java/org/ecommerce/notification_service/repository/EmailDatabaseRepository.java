@@ -10,5 +10,5 @@ import java.util.List;
 
 @RequestMapping
 public interface EmailDatabaseRepository extends JpaRepository<EmailDetails,Integer> {
-    List<EmailDetails> findByRetryLessThanAndStatus(int retry, EmailStatus status);
+    List<EmailDetails> findByTriesLessThanAndStatus(int tries, EmailStatus status);
 }

@@ -18,22 +18,22 @@ public class EmailDatabaseServiceImpl implements EmailDatabaseService{
     private EmailDatabaseRepository repository;
 
     @Override
-    public EmailDetails addEmailInfoToDB(EmailDetails emailDetails) {
-        EmailDetails entity = repository.save(emailDetails);
+    public EmailDetails addEmailInfoToDB(EmailDetails emailDetailsRecord) {
+        EmailDetails entity = repository.save(emailDetailsRecord);
         LOGGER.info(String.format("new Email Details record added to database successfully"));
         return entity;
     }
 
     @Override
-    public void updateEmailDetailsStatus(EmailDetails updatedNotification, Integer id) {
+    public void updateEmailDetailsStatus(EmailDetails updatedEmailDetailsRecord, Integer id) {
         EmailDetails existingRecord = repository.findById(id).orElse(null);
 
         if(existingRecord == null){
             LOGGER.info(String.valueOf(new EmailDetailsNotFoundException("record not found with id:" + id)));
             return;
         }
-        existingRecord.setStatus(updatedNotification.getStatus());
-        existingRecord.setReceived_at(updatedNotification.getReceived_at());
+        existingRecord.setStatus(updatedEmailDetailsRecord.getStatus());
+        existingRecord.setReceived_at(updatedEmailDetailsRecord.getReceived_at());
 
         repository.save(existingRecord);
 

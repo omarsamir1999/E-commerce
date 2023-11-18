@@ -27,7 +27,7 @@ public class EmailDetails {
         this.status=EmailStatus.FAILED;
     }
 
-    public void setTries(int retry) {
+    public void setTries(int tries) {
         this.tries = tries;
     }
 
