@@ -21,7 +21,7 @@ Notification Service facilitates the communication between [Order Service](https
 <p align="center"><img src="order-information message.jpg" height="600" width="400"></p>
 
 ## Notification Service ERD
-<p align="center"> <img src="notification service erd.png" width="400" height="400"> </p>
+<p align="center"> <img src="notification service ERD.png" width="400" height="400"> </p>
 
 ## Technologies Used
 - Spring Boot 3.1.5
