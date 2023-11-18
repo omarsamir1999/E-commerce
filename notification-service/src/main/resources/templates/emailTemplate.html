@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <style>
+        body{
+           border: 5px solid #FF9209;
+           background-color: #FFFFDD;
+           padding: 20px;
+           margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<img src="https://rb.gy/5lu1mp" width="100%" height="200px"/>
+
+<p>Dear <span th:text="${customerName}"></span>,</p>
+<p>Thank you for shopping with Ecommerce! We're excited to inform you that your order has been successfully placed. Below are the details of your purchase:</p>
+
+<ul>
+    <li><p> <b>Order Number: </b> <span th:text="${orderNumber}"></span></p></li>
+    <li><p><b>Date: </b><span th:text="${orderDate}"></span></p></li>
+    <li><p><b>Items Ordered: </b></p></li>
+
+    <!-- Iterating over the items -->
+    <ul th:each="item : ${items}">
+        <li><b>Product Name: </b><span th:text="${item.productName}"></span><br/></li>
+        <li><b>Quantity: </b><span th:text="${item.quantity}"></span><br/></li>
+        <li><b>Price: </b><span th:text="${item.price}"></span><br/></li>
+    </ul>
+
+    <li><p><b>Billing Information: </b></p></li>
+    <ul>
+        <li><b>Name: </b><span th:text="${customerName}"></span></li>
+        <li><b>Address: </b><span th:text="${billingAddress}"></span></li>
+        <li><b>Payment Method: </b><span th:text="${paymentMethod}"></span></li>
+        <li><b>Total Amount: </b><span th:text="${totalAmount}"></span></li>
+    </ul>
+    <li><b>Shipping Address: </b> <span th:text="${shippingAddress}"></span></li>
+    <li><b>Payment Confirmation: </b> Your payment of <span th:text="${totalAmount}"></span> has been successfully processed</li>
+</ul>
+<p>Your order is being processed and will be shipped to you soon. You will receive a separate email with the shipment tracking information once your order has been dispatched</p>
+<p>If you have any questions or concerns about your order, please feel free to reply to this email at e.commerce.0.app@gmail.com</p>
+<p>Thank you for choosing e-commerce. We appreciate your business!</p>
+</p>
+<p>Best regards,</p>
+<p>e-commerce</p>
+<p>e.commerce.0.app@gmail.com</p>
+</body>
+</html>

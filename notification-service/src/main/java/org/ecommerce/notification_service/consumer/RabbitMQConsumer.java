@@ -1,6 +1,7 @@
 package org.ecommerce.notification_service.consumer;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.ecommerce.notification_service.service.EmailServiceImpl;
 import org.ecommerce.notification_service.util.RabbitMQConsumerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,12 @@ public class RabbitMQConsumer implements MessageListener {
     @Autowired
     private RabbitMQConsumerUtil consumerUtil;
 
+    @Autowired
+    private EmailServiceImpl emailService;
     @Override
     public void onMessage(Message message) {
-        LOGGER.info(String.format("Message received from RabbitMQ successfully.\nMessage:\n%s\n" , new String(message.getBody())));
+        LOGGER.info(String.format("Message received from RabbitMQ successfully.\nMessage:\nre%s\n" , new String(message.getBody())));
         JsonNode messageNode = consumerUtil.convertMessageBodyToJsonNode(message);
+        String emailContent = emailService.createEmailContent(messageNode);
     }
 }
