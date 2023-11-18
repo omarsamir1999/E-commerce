@@ -6,7 +6,7 @@ Notification Service facilitates the communication between [Order Service](https
 
 ## Features
 - Listens to a RabbitMQ queue for incoming order-information messages from Order Service
-- Create [Email Template]() for sending emails
+- Create [Email Template](https://github.com/omarsamir1999/E-commerce/blob/notification_service/notification-service/src/main/resources/templates/emailTemplate.html) for sending emails
 - Sends emails to customers using a SMTP server based on the content of the messages
 - Perform CRUD operations: 
    - Add order-information email
@@ -43,8 +43,8 @@ Before you begin, ensure you have met the following requirements:
 - Xampp Control Panel
 
 ## Getting Started
-1. Clone the repository: `git clone https://github.com/amira921/E-commerce-Notification-Service`
-2. Navigate to the project directory: `cd ./E-commerce-Notification-Service`
+1. Clone the repository: `git clone -b notification_service https://github.com/omarsamir1999/E-commerce`
+2. Navigate to the project directory: `cd ./E-commerce`
 3. Install dependencies: `mvn install`
 4. Update the `application.properties` file with your RabbitMQ, MYSQL, SMTP server details,Thymeleaf.
 5. Start Apache, MySQL, and Tomcat from Xampp
