@@ -27,7 +27,9 @@ public class RabbitMQConsumerUtil {
             node = mapper.readTree(content.getBody());
             LOGGER.info("Message body in RabbitMQ successfully converted into JsonNode");
         } catch (IOException e) {
-            LOGGER.error(String.valueOf(new RabbitMQException("Failed to convert the message body in RabbitMQ to JsonNode.\n" + e.getMessage())));
+            LOGGER.error( new RabbitMQException("Failed to convert the message body in RabbitMQ to JsonNode.\n")
+                    + e.getMessage().toString()
+            );
         }
         return node;
     }

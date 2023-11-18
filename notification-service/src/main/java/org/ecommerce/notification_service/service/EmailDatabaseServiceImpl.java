@@ -1,6 +1,7 @@
 package org.ecommerce.notification_service.service;
 
 import org.ecommerce.notification_service.entity.EmailDetails;
+import org.ecommerce.notification_service.exception.EmailDetailsNotFoundException;
 import org.ecommerce.notification_service.repository.EmailDatabaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +25,19 @@ public class EmailDatabaseServiceImpl implements EmailDatabaseService{
     }
 
     @Override
-    public EmailDetails updateEmailStatus(EmailDetails updatedNotification, Integer id) {
-        return null;
+    public void updateEmailDetailsStatus(EmailDetails updatedNotification, Integer id) {
+        EmailDetails existingRecord = repository.findById(id).orElse(null);
+
+        if(existingRecord == null){
+            LOGGER.info(String.valueOf(new EmailDetailsNotFoundException("record not found with id:" + id)));
+            return;
+        }
+        existingRecord.setStatus(updatedNotification.getStatus());
+        existingRecord.setReceived_at(updatedNotification.getReceived_at());
+
+        repository.save(existingRecord);
+
+        LOGGER.info(String.format("Email Details record updated successfully"));
     }
 
     @Override
