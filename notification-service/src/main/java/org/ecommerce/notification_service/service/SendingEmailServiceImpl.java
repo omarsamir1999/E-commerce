@@ -13,8 +13,8 @@ import org.thymeleaf.context.Context;
 import java.util.List;
 
 @Service
-public class EmailServiceImpl implements EmailService{
-    private Logger LOGGER = LoggerFactory.getLogger(EmailServiceImpl.class);
+public class SendingEmailServiceImpl implements SendingEmailService {
+    private Logger LOGGER = LoggerFactory.getLogger(SendingEmailServiceImpl.class);
     @Autowired
     private TemplateEngine templateEngine;
     @Override
