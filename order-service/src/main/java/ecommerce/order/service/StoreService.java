@@ -1,6 +1,6 @@
 package ecommerce.order.service;
 
-import ecommerce.order.dto.OrderItemDto;
+import ecommerce.order.dtos.OrderItemDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

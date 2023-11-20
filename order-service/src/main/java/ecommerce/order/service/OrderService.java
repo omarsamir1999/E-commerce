@@ -1,8 +1,8 @@
 package ecommerce.order.service;
 
-import ecommerce.order.dto.*;
+import ecommerce.order.dtos.*;
+import ecommerce.order.helpers.NotificationDataExtractor;
 import ecommerce.order.helpers.OrderStatus;
-import ecommerce.order.helpers.TransactionStatus;
 import ecommerce.order.models.Order;
 import ecommerce.order.models.OrderItem;
 import ecommerce.order.models.Shipment;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -50,47 +51,48 @@ public class OrderService {
         order.setOrderItemsList(orderItems);
 
         // 1. call the stock service to check if all order items exist
-        if (!orderItemsExists(orderRequest.getOrderItemDtosList())) {
-            throw new IllegalArgumentException("order items are not available in the stock!");
-        }
+//        if (!orderItemsExists(orderRequest.getOrderItemDtosList())) {
+//            throw new IllegalArgumentException("order items are not available in the stock!");
+//        }
 
         // 2. get the total price from the product service
-        Double price = productService.calculateTotalPrice(orderRequest.getOrderItemDtosList());
-        order.setPrice(price);
-        order.setPaidPrice(price);
+//        Double price = productService.calculateTotalPrice(orderRequest.getOrderItemDtosList());
+//        order.setPrice(price);
+//        order.setPaidPrice(price);
 
         // 3. call coupon service to check if the given coupon is valid or not
-        if (!order.getCouponCode().isEmpty() && couponService.isValidCoupon(order.getCouponCode())) { // if order has a coupon
-            couponService.consumeCoupon(order);
-        }
+//        if (!order.getCouponCode().isEmpty() && couponService.isValidCoupon(order.getCouponCode())) { // if order has a coupon
+//            couponService.consumeCoupon(order);
+//        }
         order.setStatus(OrderStatus.PENDING);
 
         // 4. Make the transaction
-        PaymentDetails paymentDetails = getPaymentDetails(orderRequest, order);
-        TransactionResponse transactionResponse = bankService.makeTransaction(paymentDetails);
+//        PaymentDetails paymentDetails = getPaymentDetails(orderRequest, order);
+//        TransactionResponse transactionResponse = bankService.makeTransaction(paymentDetails);
 
-        if (transactionResponse.getTransactionStatus() == TransactionStatus.FAIL) {
-            throw new IllegalArgumentException("Invalid Transaction!");
-        }
+//        if (transactionResponse.getTransactionStatus() == TransactionStatus.FAIL) {
+//            throw new IllegalArgumentException("Invalid Transaction!");
+//        }
         // 5. persist the transactionId
-        order.setTransactionId(transactionResponse.getTransactionId());
+//        order.setTransactionId(transactionResponse.getTransactionId());
 
         // 6. Create the shipment
         Shipment shipment = getShipment(orderRequest, order);
-        shipmentRepository.save(shipment);
 
         // 7. update order status
         order.setStatus(OrderStatus.SHIPPING);
 
 
         // 8. call the stock service to decrement the items from the stock
-        storeService.consumeFromStock(orderRequest.getOrderItemDtosList());
+//        storeService.consumeFromStock(orderRequest.getOrderItemDtosList());
 
         // 9. persist the order
         orderRepository.save(order);
+        shipmentRepository.save(shipment);
 
         // 10. send notifivation to the customer
-//        notificationService.sendNotification();
+        Map<String, Object> notification = NotificationDataExtractor.extractNotificationData(order, shipment);
+        notificationService.sendNotification(notification);
     }
 
     private static PaymentDetails getPaymentDetails(OrderRequest orderRequest, Order order) {
@@ -107,8 +109,6 @@ public class OrderService {
 
     private static Shipment getShipment(OrderRequest orderRequest, Order order) {
         Shipment shipment = new Shipment();
-        shipment.setCustomerEmail(orderRequest.getCustomerEmail());
-        shipment.setShipmentDate(LocalDateTime.now());
         shipment.setCountry(orderRequest.getCountry());
         shipment.setState(orderRequest.getState());
         shipment.setCity(orderRequest.getCity());

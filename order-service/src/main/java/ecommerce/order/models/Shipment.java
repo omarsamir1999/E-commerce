@@ -15,11 +15,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Shipment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String customerEmail;
-    private long storeId;
-    private LocalDateTime shipmentDate;
-
     private String country;
     private String state;
     private String city;

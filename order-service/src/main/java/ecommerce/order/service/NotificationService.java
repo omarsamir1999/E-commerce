@@ -1,7 +1,7 @@
 package ecommerce.order.service;
 
-import ecommerce.order.dto.Notification;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class NotificationService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendNotification(Notification notification) {
+    public void sendNotification(Object notification) {
         rabbitTemplate.convertAndSend(exchangeName, routingKey, notification);
     }
 }

@@ -1,4 +1,4 @@
-package ecommerce.order.dto;
+package ecommerce.order.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,4 +11,5 @@ public class OrderItemDto {
     private String productCode;
     private int storeId;
     private int quantity;
+    private double price;
 }

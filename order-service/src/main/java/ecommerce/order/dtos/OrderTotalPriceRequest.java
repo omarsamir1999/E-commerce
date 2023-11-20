@@ -1,6 +1,4 @@
-package ecommerce.order.dto;
-
-import ecommerce.order.models.OrderItem;
+package ecommerce.order.dtos;
 
 import java.util.List;
 

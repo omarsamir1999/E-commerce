@@ -1,11 +1,9 @@
-package ecommerce.order.dto;
+package ecommerce.order.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

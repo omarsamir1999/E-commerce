@@ -1,4 +1,4 @@
-package ecommerce.order.dto;
+package ecommerce.order.dtos;
 
 import java.time.LocalDateTime;
 

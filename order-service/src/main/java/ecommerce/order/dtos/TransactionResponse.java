@@ -1,4 +1,4 @@
-package ecommerce.order.dto;
+package ecommerce.order.dtos;
 
 import ecommerce.order.helpers.TransactionStatus;
 import jakarta.persistence.Enumerated;

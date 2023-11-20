@@ -1,5 +1,6 @@
-package ecommerce.order.dto;
+package ecommerce.order.dtos;
 
+import ecommerce.order.helpers.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public class PaymentDetails {
     private int expirationMonth;
     private int expirationYear;
     private double amount;
+    private TransactionType transactionType;
 }

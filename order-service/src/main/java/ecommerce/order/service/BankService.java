@@ -1,7 +1,7 @@
 package ecommerce.order.service;
 
-import ecommerce.order.dto.PaymentDetails;
-import ecommerce.order.dto.TransactionResponse;
+import ecommerce.order.dtos.PaymentDetails;
+import ecommerce.order.dtos.TransactionResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

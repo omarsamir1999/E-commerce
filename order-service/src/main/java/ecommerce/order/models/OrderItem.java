@@ -17,4 +17,5 @@ public class OrderItem {
     private String productCode;
     private int storeId;
     private int quantity;
+    private double price;
 }

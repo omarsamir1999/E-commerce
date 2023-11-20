@@ -1,6 +1,5 @@
 package ecommerce.order.models;
 
-import ecommerce.order.dto.PaymentDetails;
 import ecommerce.order.helpers.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,6 +29,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     private Long transactionId;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OrderItem> orderItemsList;
 }
