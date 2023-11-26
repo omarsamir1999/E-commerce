@@ -2,10 +2,7 @@ package com.jobhacker.productservice.service;
 
 import com.jobhacker.productservice.dao.ProductDAO;
 import com.jobhacker.productservice.exception.UnExpectedException;
-import com.jobhacker.productservice.model.dto.OrderTotalPriceRequest;
-import com.jobhacker.productservice.model.dto.OrderTotalPriceResponse;
-import com.jobhacker.productservice.model.dto.ProductDto;
-import com.jobhacker.productservice.model.dto.ProductDtoRequest;
+import com.jobhacker.productservice.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +67,7 @@ public class ProductService {
         }
     }
 
-    public List<ProductDto> searchAboutProducts(String name) {
+    public List<ProductSearchDto> searchAboutProducts(String name) {
         try {
             return productDAO.searchAboutProductName(name.toUpperCase());
         } catch (Exception e) {

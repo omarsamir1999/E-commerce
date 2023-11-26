@@ -1,9 +1,6 @@
 package com.jobhacker.productservice.controller;
 
-import com.jobhacker.productservice.model.dto.OrderTotalPriceRequest;
-import com.jobhacker.productservice.model.dto.OrderTotalPriceResponse;
-import com.jobhacker.productservice.model.dto.ProductDto;
-import com.jobhacker.productservice.model.dto.ProductDtoRequest;
+import com.jobhacker.productservice.model.dto.*;
 import com.jobhacker.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +33,11 @@ public class ProductController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<ProductDto>> getProductsByName(@RequestParam(value = "name", required = true) String name) {
+    public ResponseEntity<List<ProductSearchDto>> getProductsByName(@RequestParam(value = "name", required = true) String name) {
 
-        List<ProductDto> resultList = productService.searchAboutProducts(name);
+        List<ProductSearchDto> resultList = productService.searchAboutProducts(name);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
-
 
     @GetMapping(value = {"", "/"})
     public ResponseEntity<List<ProductDto>> getAllProducts() {

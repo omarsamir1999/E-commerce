@@ -3,9 +3,11 @@ package com.jobhacker.productservice.dao;
 import com.jobhacker.productservice.exception.InvalidArgumentException;
 import com.jobhacker.productservice.exception.NotFoundException;
 import com.jobhacker.productservice.mapper.ProductMapper;
+import com.jobhacker.productservice.mapper.ProductSearchMapper;
 import com.jobhacker.productservice.model.dto.OrderTotalPriceRequest;
 import com.jobhacker.productservice.model.dto.ProductDto;
 import com.jobhacker.productservice.model.dto.ProductDtoRequest;
+import com.jobhacker.productservice.model.dto.ProductSearchDto;
 import com.jobhacker.productservice.model.entity.Brand;
 import com.jobhacker.productservice.model.entity.Category;
 import com.jobhacker.productservice.model.entity.Product;
@@ -23,22 +25,23 @@ public class ProductDAO {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-
     private final BrandDAO brandDAO;
     private final CategoryDAO categoryDAO;
     private final ProductDtoMapper productDtoMapper;
+    private final ProductSearchMapper productSearchMapper;
 
     @Autowired
     public ProductDAO(ProductRepository productRepository,
                       ProductMapper productMapper,
                       BrandDAO brandDAO,
                       CategoryDAO categoryDAO,
-                      ProductDtoMapper productDtoMapper) {
+                      ProductDtoMapper productDtoMapper, ProductSearchMapper productSearchMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.brandDAO = brandDAO;
         this.categoryDAO = categoryDAO;
         this.productDtoMapper = productDtoMapper;
+        this.productSearchMapper = productSearchMapper;
     }
 
     public ProductDto save(ProductDtoRequest productDtoRequest) {
@@ -122,12 +125,12 @@ public class ProductDAO {
         }
     }
 
-    public List<ProductDto> searchAboutProductName(String name) {
+    public List<ProductSearchDto> searchAboutProductName(String name) {
         try {
             return productRepository.findByProductNameContainingIgnoreCase(name)
                     .stream()
-                    .map(productMapper::toDto)
                     .filter(e -> e.getProductStatus() == ProductStatus.ACTIVE)
+                    .map(productSearchMapper::toDto)
                     .toList();
         } catch (Exception ex) {
             throw new NotFoundException("Theirs is no product with this name");
